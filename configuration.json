@@ -1,35 +1,36 @@
 [
-    {
-        "key": "AccessToken",
-        "type": "input",
-        "defaultValue": "",
-        "templateOptions": {
-            "type": "password",
-            "label": "AccessToken",
-            "description": "The access token for the Blue Dolphin API.",
-            "required": true
-        }
+  {
+    "defaultValue": "",
+    "key": "BaseUrl",
+    "templateOptions": {
+      "description": "The URL to the application",
+      "label": "BaseUrl",
+      "placeholder": "https://services.bluedolphin.app",
+      "required": true
     },
-    {
-        "key": "BaseUrl",
-        "type": "input",
-        "defaultValue": "",
-        "templateOptions": {
-            "label": "BaseUrl",
-            "description": "The URL to the application",
-            "placeholder": "",
-            "required": true
-        }
+    "type": "input"
+  },
+  {
+    "defaultValue": "",
+    "key": "TenantId",
+    "templateOptions": {
+      "description": "The Tenant Id to the application",
+      "label": "Tenant Id",
+      "placeholder": "TenantId",
+      "required": true
     },
-    {
-        "key": "TenantId",
-        "type": "input",
-        "defaultValue": "",
-        "templateOptions": {
-            "label": "Tenant Id",
-            "description": "The Tenant Id to the application",
-            "placeholder": "/scim/v2/{TenantId}/users",
-            "required": true
-        }
-    }
+    "type": "input"
+  },
+  {
+    "defaultValue": "",
+    "key": "AccessToken",
+    "templateOptions": {
+      "description": "The access token for the Blue Dolphin API.",
+      "label": "AccessToken",
+      "placeholder": "c8e57dfd-371a-4054-942a-9b9fdb07f3f3",
+      "required": true,
+      "type": "password"
+    },
+    "type": "input"
+  }
 ]
