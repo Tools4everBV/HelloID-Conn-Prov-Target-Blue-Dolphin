@@ -34,7 +34,7 @@
 
 ## Introduction
 
-_HelloID-Conn-Prov-Target-Blue-Dolphin_ is a _target_ connector. _Blue-Dolphin_ provides a set of REST API's that allow you to programmatically interact with its data.
+_HelloID-Conn-Prov-Target-Blue-Dolphin_ is a _target_ connector. _BlueDolphin_ provides a set of REST API's that allow you to programmatically interact with its data.
 
 ## Supported  features
 
@@ -64,7 +64,7 @@ The following settings are required to connect to the API.
 
 ### Correlation configuration
 
-The correlation configuration is used to specify which properties will be used to match an existing account within _Blue-Dolphin_ to a person in _HelloID_.
+The correlation configuration is used to specify which properties will be used to match an existing account within _BlueDolphin_ to a person in _HelloID_.
 
 | Setting                   | Value                                                         |
 | ------------------------- | ------------------------------------------------------------- |
@@ -81,7 +81,7 @@ The field mapping can be imported by using the _fieldMapping.json_ file.
 
 ### Account Reference
 
-The account reference is populated with the property `id` property from _Blue-Dolphin_
+The account reference is populated with the property `id` property from _BlueDolphin_
 
 ## Remarks
 
@@ -132,3 +132,4 @@ The following endpoints are used by the connector
 ## HelloID docs
 
 The official HelloID documentation can be found at: https://docs.helloid.com/
+
