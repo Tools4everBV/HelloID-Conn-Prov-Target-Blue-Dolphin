@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](https://keepachangelog.com), and this project adheres to [Semantic Versioning](https://semver.org).
 
-## [1.0.1] - 26-09-2025
+## [1.1.0] - 26-09-2025
 
 
 ### Added
@@ -26,5 +26,6 @@ This is the first official release of _HelloID-Conn-Prov-Target-Blue-Dolphin_. T
 ### Changed
 
 ### Deprecated
+
 
 ### Removed
