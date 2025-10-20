@@ -94,10 +94,11 @@ try {
     if ($($ex.Exception.GetType().FullName -eq 'Microsoft.PowerShell.Commands.HttpResponseException') -or
         $($ex.Exception.GetType().FullName -eq 'System.Net.WebException')) {
         $errorObj = Resolve-Blue-DolphinError -ErrorObject $ex
-        Write-Warning "Could not import Blue Dolphin accounts. Error: $($errorObj.FriendlyMessage)"
+        Write-Warning "Could not import Blue-Dolphin account. Error: $($errorObj.FriendlyMessage)"
         Write-Warning "Error at Line '$($errorObj.ScriptLineNumber)': $($errorObj.Line). Error: $($errorObj.ErrorDetails)"
     } else {
-        Write-Warning "Could not import Blue Dolphin accounts. Error: $($ex.Exception.Message)"
+        Write-Warning "Could not import Blue-Dolphin account. Error: $($ex.Exception.Message)"
         Write-Warning "Error at Line '$($ex.InvocationInfo.ScriptLineNumber)': $($ex.InvocationInfo.Line). Error: $($ex.Exception.Message)"
     }
+
 }
