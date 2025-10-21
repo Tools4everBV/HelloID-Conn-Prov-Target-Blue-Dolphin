@@ -22,9 +22,10 @@
   - [Remarks](#remarks)
     - [SCIM](#scim)
     - [API Limitation](#api-limitation)
+    - [Public API add-on](#Public-API-add-on-activation)
+    - [Role/Group](#RoleGroup)
     - [Correlation Based on Email Address](#correlation-based-on-email-address)
     - [Enable/Disable Actions](#enabledisable-actions)
-    - [Default role](#default-role)
     - [Duplicate mappings](#duplicate-mappings)
   - [Development resources](#development-resources)
     - [API endpoints](#api-endpoints)
@@ -43,10 +44,10 @@ The following features are available:
 | Feature                                   | Supported | Actions                | Remarks                                                                                                   |
 | ----------------------------------------- | --------- | ---------------------- | --------------------------------------------------------------------------------------------------------- |
 | **Account Lifecycle**                     | ✅         | Create, Update, Delete | No Enable and Disable. See remark [Enable/Disable Actions](#enabledisable-actions)                                                                                     |
-| **Permissions**                           | ❌         | -                      | Users are assigned the Alleen Lezen (Read-Only) role by default. See remark [Default role](#default-role) |
+| **Permissions**                           | ✅         | Grant, Revoke          |                                                                                                           |
 | **Resources**                             | ❌         | -                      |                                                                                                           |
 | **Entitlement Import: Accounts**          | ✅         | -                      |                                                                                                           |
-| **Entitlement Import: Permissions**       | ❌         | -                      |                                                                                                           |
+| **Entitlement Import: Permissions**       | ✅         | -                      |                                                                                                           |
 | **Governance Reconciliation Resolutions** | ✅         | -                      |                                                                                                           |
 
 ## Getting started
@@ -92,6 +93,13 @@ The account reference is populated with the property `id` property from _BlueDol
 - **one call every 250 milliseconds**: The API allows one call every 250 milliseconds per IP address. Exceeding this limit will return an HTTP 429: Too Many Requests response.
 If you encounter this issue, try lowering the number of concurrent actions in HelloID.
 
+### Public API add-on activation
+- **The Public API is an Add-on that needs to be enabled** on your BlueDolphin tenant before you are capable to do API calls on your tenant. Contact your Account Manager to get the Add-on. If the add-on is not activated, any calls to the BlueDolphin public API will result in a 403 Forbidden error.
+
+### Role/Group
+- The application uses the term roles while the API uses the term groups. 
+A default group must be assigned to grant access to the application such as "gebruikers"
+
 ### Correlation Based on Email Address
 - **Email Address Correlation**: The connector relies on email addresses to correlate and match records between systems. Make sure email addresses are accurate and consistent across all systems to prevent issues with data synchronization and matching.
 Note: The API does not support filtering on GET calls, so the create action always retrieves all users.
@@ -99,9 +107,6 @@ Note: The API does not support filtering on GET calls, so the create action alwa
 ### Enable/Disable Actions
 - **SSO**: This connector does not include enable or disable actions, as these are managed through SSO.
 - **Import entitlements**: Since enable and disable actions are managed through SSO, the `enabled` property in the **importEntitlements** action should always be set to `$false`.
-
-### Default role
-- **alleen lezen (read only)**: Users are assigned the Alleen Lezen (Read-Only) role by default. Any additional roles must be assigned manually.
 
 ### Duplicate mappings
 - **Different account objects**: The User object returned by the API differs from the one used in the field mapping. As a result, the create, update, and import actions require duplicate mappings to ensure proper data handling.
@@ -112,9 +117,10 @@ Note: The API does not support filtering on GET calls, so the create action alwa
 
 The following endpoints are used by the connector
 
-| Endpoint | Description                                          |
-| -------- | ---------------------------------------------------- |
-| /Users   | Retrieve, create, update and delete user information |
+| Endpoint | Description                                              |
+| -------- | -------------------------------------------------------- |
+| /Users   | Retrieve, create, update and delete user information     |
+| /Groups  | Retrieve, create, update group information / memberships |
 
 ### API documentation
 
