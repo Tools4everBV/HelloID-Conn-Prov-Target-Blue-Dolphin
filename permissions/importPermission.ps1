@@ -91,12 +91,12 @@ try {
         foreach ($member in $groupDetail.members) {
             $permission = @{
                 PermissionReference = @{
-                    Reference = $groupDetail.id
+                    Id      = $groupDetail.id
+                    Name    = $group.displayName
                 }       
-                DisplayName         = $groupDetail.displayName
+                DisplayName         = "Group - $($groupDetail.displayName)"
                 AccountReferences   = @($member.value)
             }
-
             # Return the result
             Write-Output $permission
                 
