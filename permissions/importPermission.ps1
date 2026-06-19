@@ -87,19 +87,14 @@ try {
 
         $groupDetail = Invoke-RestMethod @splatGetMembersParams
 
-
         foreach ($member in $groupDetail.members) {
             $permission = @{
                 PermissionReference = @{
-                    Reference = $groupDetail.id
+                    Id = $groupDetail.id
                 }       
-                DisplayName         = $groupDetail.displayName
                 AccountReferences   = @($member.value)
             }
-
-            # Return the result
             Write-Output $permission
-                
         }
 
     }

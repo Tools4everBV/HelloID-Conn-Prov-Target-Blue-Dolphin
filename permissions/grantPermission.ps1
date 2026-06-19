@@ -6,14 +6,6 @@
 # Enable TLS1.2
 [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor [System.Net.SecurityProtocolType]::Tls12
 
-# Set debug logging
-switch ($actionContext.Configuration.isDebug) {
-    $true { $VerbosePreference = "Continue" }
-    $false { $VerbosePreference = "SilentlyContinue" }
-}
-$InformationPreference = "Continue"
-$WarningPreference = "Continue"
-
 #region functions
 function Resolve-Blue-DolphinError {
     [CmdletBinding()]
@@ -53,15 +45,9 @@ function Resolve-Blue-DolphinError {
 #endregion functions
 
 try {
-
     # Verify if [aRef] has a value
     if ([string]::IsNullOrEmpty($($actionContext.References.Account))) {
-        if ($actioncontext.dryrun -eq $false) {
-            throw 'The account reference could not be found'
-        }
-        else {
-            write-warning "[DryRun]: The account reference could not be found"
-        }
+        throw 'The account reference could not be found'
     }
     #endregion Verify account reference
 
@@ -73,8 +59,6 @@ try {
 
     #region Grant permission to account
     # Microsoft docs: https://learn.microsoft.com/en-us/graph/api/group-post-members?view=graph-rest-1.0&tabs=http
-    write-warning "granting group [$($actionContext.References.Permission.Name)] with id [$($actionContext.References.Permission.id)] to account"
-
 
     $scimPatch = [ordered]@{
         schemas    = @('urn:ietf:params:scim:api:messages:2.0:PatchOp')
@@ -102,13 +86,13 @@ try {
         $null = Invoke-RestMethod @addToGroupParam
     }
     else {
-        Write-Warning "[DryRun]: Would grant group [$($actionContext.References.Permission.Name)] with id [$($actionContext.References.Permission.id)] to account with AccountReference: $($actionContext.References.Account)."
+        Write-Warning "[DryRun]: Would grant group [$($actionContext.PermissionDisplayName)] with id [$($actionContext.References.Permission.id)] to account with AccountReference: $($actionContext.References.Account)."
         write-warning "[DryRun]: body: $($addToGroupParam.body)"
     }
             
     $outputContext.AuditLogs.Add([PSCustomObject]@{
             # Action  = "" # Optional
-            Message = "Granted group [$($actionContext.References.Permission.Name)] with id [$($actionContext.References.Permission.id)] to account with AccountReference: $($actionContext.References.Account)."
+            Message = "Granted group [$($actionContext.PermissionDisplayName)] with id [$($actionContext.References.Permission.id)] to account with AccountReference: $($actionContext.References.Account)."
             IsError = $false
         })
     #endregion Grant permission to account
