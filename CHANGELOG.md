@@ -5,19 +5,11 @@ All notable changes to this project will be documented in this file. The format 
 
 ## [1.1.1] - 26-09-2025
 
-
-### Added
-
 ### Changed
-- Fix import script
-
-### Deprecated
-
-### Removed
-
+- Permission scripts
+- README to best practice
 
 ## [1.1.0] - 26-09-2025
-
 
 ### Added
 - permission scripts

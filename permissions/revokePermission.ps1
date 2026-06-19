@@ -6,14 +6,6 @@
 # Enable TLS1.2
 [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor [System.Net.SecurityProtocolType]::Tls12
 
-# Set debug logging
-switch ($actionContext.Configuration.isDebug) {
-    $true { $VerbosePreference = "Continue" }
-    $false { $VerbosePreference = "SilentlyContinue" }
-}
-$InformationPreference = "Continue"
-$WarningPreference = "Continue"
-
 #region functions
 function Resolve-Blue-DolphinError {
     [CmdletBinding()]
@@ -53,15 +45,9 @@ function Resolve-Blue-DolphinError {
 #endregion functions
 
 try {
-
     # Verify if [aRef] has a value
     if ([string]::IsNullOrEmpty($($actionContext.References.Account))) {
-        if ($actioncontext.dryrun -eq $false) {
-            throw 'The account reference could not be found'
-        }
-        else {
-            write-warning "[DryRun]: The account reference could not be found"
-        }
+        throw 'The account reference could not be found'
     }
     #endregion Verify account reference
 
@@ -73,33 +59,33 @@ try {
 
     #region revoke permission to account
     # Microsoft docs: https://learn.microsoft.com/en-us/graph/api/group-post-members?view=graph-rest-1.0&tabs=http
-    write-warning "revoking group [$($actionContext.References.Permission.Name)] with id [$($actionContext.References.Permission.id)] from account"
 
     $scimPatch = [ordered]@{
-                schemas    = @('urn:ietf:params:scim:api:messages:2.0:PatchOp')
-                Operations = @(
+        schemas    = @('urn:ietf:params:scim:api:messages:2.0:PatchOp')
+        Operations = @(
+            @{
+                op    = 'Remove'
+                path  = 'members'        
+                value = @(
                     @{
-                        op    = 'Remove'
-                        path = 'members'        
-                        value = @(
-                            @{
-                                value = $actionContext.References.Account
-                            }
-                        )
-                        
+                        value = $actionContext.References.Account
                     }
                 )
+                        
             }
-            $revokeFromGroupParam = @{
-                Uri     = "$($actionContext.Configuration.BaseUrl)/scim/v2/$($actionContext.Configuration.TenantId)/groups/$($actionContext.References.Permission.id)"
-                Method  = 'PATCH'
-                Headers = $headers
-                Body    = ($scimPatch | ConvertTo-Json -Depth 10)
-            }
+        )
+    }
+    $revokeFromGroupParam = @{
+        Uri     = "$($actionContext.Configuration.BaseUrl)/scim/v2/$($actionContext.Configuration.TenantId)/groups/$($actionContext.References.Permission.id)"
+        Method  = 'PATCH'
+        Headers = $headers
+        Body    = ($scimPatch | ConvertTo-Json -Depth 10)
+    }
     
     if (-Not($actionContext.DryRun -eq $true)) {
         $null = Invoke-RestMethod @revokeFromGroupParam
-    }else {
+    }
+    else {
         Write-Warning "[DryRun]: Would revoke group [$($actionContext.References.Permission.Name)] with id [$($actionContext.References.Permission.id)] from account with AccountReference: $($actionContext.References.Account | ConvertTo-Json)."
         write-warning "[DryRun]: body: $($revokeFromGroupParam.body)"
     }
